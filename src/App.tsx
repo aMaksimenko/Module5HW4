@@ -89,45 +89,44 @@ function App() {
   );
 }
 
+interface IEmployee {
+  name: string;
+  job: string;
+  id: number;
+  createdAt: string;
+  updatedAt: string;
+}
+interface IUserData {
+  data: IUser;
+}
+interface IUser {
+  email: string;
+  first_name: string;
+  id: number;
+  last_name: string;
+  url_avatar: string;
+}
+
+async function get() : Promise<IUserData> {
+  const response = await fetch('https://reqres.in/api/users/2');
+  return await response.json();
+}
+
+async function post() : Promise<IEmployee> {
+  const requestOptions = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ name: 'morpheus', job: 'leader' })
+  };
+  const response = await fetch('https://reqres.in/api/users', requestOptions);
+  return await response.json();
+}
 
 export function UserComponent() {
-   
-  interface IEmployee {
-    name: string;
-    job: string;
-    id: number;
-    createdAt: string;
-    updatedAt: string;
-  }
-  interface IUserData {
-    data: IUser;
-  }
-  interface IUser {
-    email: string;
-    firstName: string;
-    id: number;
-    lastName: string;
-    urlAvatar: string;
-  }
 
   const [createdUser, setCreatedUser] = React.useState<IUser[]>([]);
 
   const [emploee, setEmploee] = React.useState<IEmployee[]>([]);
-
-  async function get() : Promise<IUserData> {
-    const response = await fetch('https://reqres.in/api/users/2');
-    return await response.json();
-  }
-
-  async function post() : Promise<IEmployee> {
-    const requestOptions = {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name: 'morpheus', job: 'leader' })
-    };
-    const response = await fetch('https://reqres.in/api/users', requestOptions);
-    return await response.json();
-  }
 
   useEffect(() => {
 
@@ -138,15 +137,12 @@ export function UserComponent() {
         setEmploee([resultPost]);
     }
 
-    if (createdUser.length == 0 && emploee.length == 0)
-    {
      init();
-    }
-  });
+  }, []);
 
   return(<>
             {createdUser.map(item => (
-                    <ListItem key={item.id} title={item.email} description={item.firstName + ' ' + item.lastName} count={item.id}  />
+                    <ListItem key={item.id} title={item.email} description={item.first_name + ' ' + item.last_name} count={item.id}  />
                   ))}
             {emploee.map(item => (
                     <ListItem key={item.id} title={item.job} description={item.name} count={item.id}  />
