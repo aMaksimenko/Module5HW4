@@ -3,6 +3,7 @@ import { Configuration, HotModuleReplacementPlugin } from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import ESLintPlugin from "eslint-webpack-plugin";
+import Dotenv from 'dotenv-webpack'
 
 const config: Configuration = {
   mode: "development",
@@ -34,10 +35,12 @@ const config: Configuration = {
   },
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".css"],
+    modules: [path.resolve(__dirname, "src"), "node_modules"]
   },
   plugins: [
+    new Dotenv(),
     new HtmlWebpackPlugin({
-      template: "src/index.html",
+      template: "static/index.html",
     }),
     new HotModuleReplacementPlugin(),
     new ForkTsCheckerWebpackPlugin({

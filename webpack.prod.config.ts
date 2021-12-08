@@ -40,7 +40,7 @@ const config: Configuration = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "src/index.html",
+      template: "static/index.html",
     }),
     new ForkTsCheckerWebpackPlugin({
       async: false,
